@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 项目唯一标识 -->
+    <property name="log_app_uk" value="uploader"/>
+    <!-- 日志存放文件夹，默认/var/log -->
+    <property name="log_path" value="/var/uploader/log"/>
+    <!-- 日志文件名，默认logback.log -->
+    <property name="log_file_name" value="logback.log"/>
+    <!-- 单日志文件大小，默认100MB -->
+    <property name="log_max_file_size" value="100MB"/>
+    <!-- 日志存放天数，默认15天 -->
+    <property name="log_max_history" value="15"/>
+
+    <!-- 控制台输出 -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS,GMT+8} %level %thread %X{traceId} #${log_app_uk}# #%c{0}# %m %n
+            </pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- logback日志文件配置 -->
+    <appender name="logbackAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log_path}/log-${log_app_uk}/${log_file_name}</file>
+        <append>true</append>
+
+        <!-- 以日期+文件大小切割 方式 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_path}/log-${log_app_uk}/%d{yyyy-MM-dd}-%i-${log_file_name}
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${log_max_file_size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${log_max_history}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS,GMT+8} %level %thread %X{traceId} #${log_app_uk}# #%c{0}# %m %n
+            </pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <springProfile name="test">
+        <root level="info">
+            <appender-ref ref="stdout"/>
+            <appender-ref ref="logbackAppender"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="product">
+        <root level="info">
+            <appender-ref ref="logbackAppender"/>
+        </root>
+    </springProfile>
+</configuration>

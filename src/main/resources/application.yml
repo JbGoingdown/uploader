@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: @profiles.active@
+  servlet:
+    multipart:
+      # 单个文件的最大值
+      max-file-size: 100MB
+      # 上传文件总的最大值
+      max-request-size: 100MB
+
+uploader:
+  file:
+    domain: 127.0.0.1:8080
+    path: /var/uploader/files
