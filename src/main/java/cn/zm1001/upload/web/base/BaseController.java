@@ -20,8 +20,12 @@ public class BaseController {
     // 超过1MB将存放在临时文件中，否则存放在内存
     private static final int SIZE_THRESHOLD = 1048576;
 
+    protected UploaderConfig uploaderConfig;
+
     @Autowired
-    private UploaderConfig uploaderConfig;
+    public void setUploaderConfig(UploaderConfig uploaderConfig) {
+        this.uploaderConfig = uploaderConfig;
+    }
 
     /**
      * 提取上传信息

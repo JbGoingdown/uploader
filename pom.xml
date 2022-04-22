@@ -43,5 +43,54 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <!-- 生产环境 -->
+            <id>product</id>
+            <properties>
+                <profiles.active>product</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <!-- 预发环境 -->
+            <id>stage</id>
+            <properties>
+                <profiles.active>stage</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <!-- 本地开发/测试环境 -->
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 
+    <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/java</directory>
+                <includes>
+                    <include>**/application*.yml</include>
+                    <include>**/application*.yaml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/application*.yml</include>
+                    <include>**/application*.yaml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 </project>

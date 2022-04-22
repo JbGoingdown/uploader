@@ -32,6 +32,31 @@ public class ImageUtils {
     }
 
     /**
+     * 图片压缩
+     *
+     * @param img    源图片
+     * @param width  压缩后长度
+     * @param height 压缩后高度
+     * @return 压缩后图片
+     */
+    public static BufferedImage resizeImage(BufferedImage img, int width, int height) {
+        BufferedImage canvas = new BufferedImage(width, height, img.getTransparency());
+        Graphics2D g2 = (Graphics2D) canvas.getGraphics();
+        try {
+            // 双线性过滤
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            // 抗锯齿处理
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.drawImage(img, 0, 0, width, height, 0, 0, img.getWidth(), img.getHeight(), null);
+        } finally {
+            if (null != g2) {
+                g2.dispose();
+            }
+        }
+        return canvas;
+    }
+
+    /**
      * 等比压缩图片
      *
      * @param img    图片信息

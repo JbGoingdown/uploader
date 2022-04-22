@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
     public R handleServiceException(UploaderException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("#global# ## ## 上传异常：{}", requestURI, e);
-        return R.error(e.getMessage());
+        return R.error(e.getTips());
     }
 
     /**

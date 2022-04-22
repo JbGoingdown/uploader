@@ -1,6 +1,6 @@
 package cn.zm1001.upload.web;
 
-import cn.zm1001.upload.service.ImageServiceImpl;
+import cn.zm1001.upload.service.MediaServiceImpl;
 import cn.zm1001.upload.web.base.BaseController;
 import cn.zm1001.util.common.JacksonUtils;
 import cn.zm1001.util.common.response.R;
@@ -23,17 +23,17 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-public class ImageController extends BaseController {
+public class MediaController extends BaseController {
 
-    private ImageServiceImpl imageService;
+    private MediaServiceImpl mediaService;
 
     @Autowired
-    public void setImageService(ImageServiceImpl imageService) {
-        this.imageService = imageService;
+    public void setMediaService(MediaServiceImpl mediaService) {
+        this.mediaService = mediaService;
     }
 
-    @PostMapping("/api/img")
-    public R uploadImg(HttpServletRequest req, HttpServletResponse rsp) {
+    @PostMapping("/api/media")
+    public R uploadMedia(HttpServletRequest req, HttpServletResponse rsp) {
         // 是否上传请求
         boolean isMultipart = ServletFileUpload.isMultipartContent(req);
         if (!isMultipart) {
@@ -50,8 +50,8 @@ public class ImageController extends BaseController {
             log.error("#img# ## ## {}", JacksonUtils.toJson(params), e);
             return R.error("上传失败");
         }
-        // 图片地址
-        String url = imageService.uploader(uploaderConfig, params, files);
+        // 媒体文件地址
+        String url = mediaService.uploader(uploaderConfig, params, files);
         return R.success(url);
     }
 }

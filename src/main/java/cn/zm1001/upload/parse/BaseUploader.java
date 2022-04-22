@@ -21,12 +21,12 @@ public abstract class BaseUploader {
      * @param param 参数
      * @return 文件信息
      */
-    protected String getSavePath(Map<String, String> param){
+    protected String getSavePath(Map<String, String> param) {
         String path = param.get("path");
         if (StringUtils.isEmpty(path)) {
             throw new UploaderException("未指定文件存放路径");
         }
-        if (!FileUtils.isValidFilename(path)) {
+        if (!FileUtils.isValidFilePath(path)) {
             throw new UploaderException("非法文件路径");
         }
         return path;
@@ -38,34 +38,34 @@ public abstract class BaseUploader {
      * @param files 文件映射
      * @return 文件信息
      */
-    protected FileItem getDefaultFile(Map<String, FileItem> files){
+    protected FileItem getDefaultFile(Map<String, FileItem> files) {
         return getFile(files, "file");
     }
 
     /**
      * 获取文件
      *
-     * @param files 文件映射
+     * @param files    文件映射
      * @param fileName 文件名
      * @return 文件信息
      */
-    protected FileItem getFile(Map<String, FileItem> files, String fileName){
+    protected FileItem getFile(Map<String, FileItem> files, String fileName) {
         FileItem fileItem = files.get(fileName);
         if (null == fileItem)
-            throw new UploaderException("文件丢失");
+            throw new UploaderException("未能获得文件信息");
         if (StringUtils.isEmpty(fileItem.getName()))
-            throw new UploaderException("文件名丢失");
+            throw new UploaderException("未能获得文件名");
         return fileItem;
     }
 
     /**
      * 生成随机路径
-     * 规则：a0/f9(字符范围：a~f和0~9)
+     * 规则：/a0/f9(字符范围：a~f和0~9)
      *
      * @return 随机路径
      */
-    protected String randomPath(){
+    protected String randomPath() {
         String randomString = RandomStringUtils.random(4, chars);
-        return randomString.substring(0, 2) + "/" + randomString.substring(2, 4);
+        return "/" + randomString.substring(0, 2) + "/" + randomString.substring(2, 4);
     }
 }
