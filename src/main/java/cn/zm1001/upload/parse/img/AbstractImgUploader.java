@@ -74,7 +74,7 @@ public abstract class AbstractImgUploader extends BaseUploader {
         final String suffix = getSuffix(imgName);
         // 保护目录
         final String protectPath = randomPath();
-        final File imgDir = new File(config.getFilePath() + savePath + protectPath);
+        final File imgDir = new File(config.getPath() + savePath + protectPath);
         if (!imgDir.exists()) {
             imgDir.mkdirs();
         }
@@ -87,7 +87,7 @@ public abstract class AbstractImgUploader extends BaseUploader {
         } catch (IOException e) {
             throw new UploaderException("写入图片失败");
         }
-        return config.getFileDomain() + savePath + protectPath + "/" + imgName;
+        return config.getDomain() + savePath + protectPath + "/" + imgName;
     }
 
     /**
@@ -116,16 +116,16 @@ public abstract class AbstractImgUploader extends BaseUploader {
 
         try {
             // 生成大图
-            this.write(image, config.getFilePath() + savePath + "/big" + protectPath, imgName, suffix, 800, 800);
+            this.write(image, config.getPath() + savePath + "/big" + protectPath, imgName, suffix, 800, 800);
             // 生成中图
-            this.write(image, config.getFilePath() + savePath + "/middle" + protectPath, imgName, suffix, 300, 300);
+            this.write(image, config.getPath() + savePath + "/middle" + protectPath, imgName, suffix, 300, 300);
             // 生成小图
-            this.write(image, config.getFilePath() + savePath + "/big" + protectPath, imgName, suffix, 100, 100);
+            this.write(image, config.getPath() + savePath + "/big" + protectPath, imgName, suffix, 100, 100);
         } catch (IOException e) {
             throw new UploaderException("写入图片失败");
         }
 
-        return config.getFileDomain() + savePath + "/middle" + protectPath + "/" + imgName;
+        return config.getDomain() + savePath + "/middle" + protectPath + "/" + imgName;
     }
 
     /**
@@ -137,7 +137,7 @@ public abstract class AbstractImgUploader extends BaseUploader {
      * @param suffix  图片类型
      * @param width   指定宽度
      * @param height  指定高度
-     * @throws IOException
+     * @throws IOException IO异常
      */
     private void write(BufferedImage image, String imgDir, String imgName, String suffix, int width, int height) throws IOException {
         File imgPath = new File(imgDir);

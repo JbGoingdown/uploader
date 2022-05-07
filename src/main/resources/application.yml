@@ -3,12 +3,18 @@ spring:
     active: @profiles.active@
   servlet:
     multipart:
-      # 单个文件的最大值
-      max-file-size: 100MB
-      # 上传文件总的最大值
-      max-request-size: 100MB
+      # 交给commons-fileupload处理
+      enabled: false
+
+server:
+  port: 8088
+
+#日志
+logging:
+  config: classpath:logback-spring.xml
 
 uploader:
   file:
-    domain: 127.0.0.1:8080
+    domain: http://127.0.0.1:8088
     path: /var/uploader/files
+
