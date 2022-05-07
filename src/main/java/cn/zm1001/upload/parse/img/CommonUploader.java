@@ -21,8 +21,13 @@ public class CommonUploader extends AbstractImgUploader {
         if (null == image) {
             throw new UploaderException("未能读取图片信息");
         }
-        final String fileName = StringUtils.firstNonBlank(params.get("fileName"), fileItem.getName());
+        boolean useRealName = true;
+        String fileName = params.get("fileName");
+        if (StringUtils.isEmpty(fileName)) {
+            useRealName = false;
+            fileName = fileItem.getName();
+        }
         final String savePath = getSavePath(params);
-        return write(config, image, savePath, fileName, false);
+        return write(config, image, savePath, fileName, useRealName);
     }
 }

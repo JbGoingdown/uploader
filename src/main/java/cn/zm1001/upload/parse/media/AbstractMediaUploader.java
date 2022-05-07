@@ -50,28 +50,31 @@ public abstract class AbstractMediaUploader extends BaseUploader {
     /**
      * 将媒体文件保存至磁盘
      *
-     * @param config    上传配置
-     * @param fileItem  文件信息
-     * @param savePath  保存路径
-     * @param mediaName 媒体文件名称
+     * @param config      上传配置
+     * @param fileItem    文件信息
+     * @param savePath    保存路径
+     * @param mediaName   媒体文件名称
+     * @param useRealName 是否使用图片真实名称
      * @return 媒体文件访问地址
      */
-    protected String write(UploaderConfig config, FileItem fileItem, String savePath, String mediaName) {
+    protected String write(UploaderConfig config, FileItem fileItem, String savePath, String mediaName, boolean useRealName) {
         // 文件后缀
         final String suffix = getSuffix(mediaName);
         // 保护目录
         final String protectPath = randomPath();
-        final File mediaDir = new File(config.getFilePath() + savePath + protectPath);
+        final File mediaDir = new File(config.getPath() + savePath + protectPath);
         if (!mediaDir.exists()) {
             mediaDir.mkdirs();
         }
-        mediaName = IdUtils.fastNanoId() + "." + suffix;
+        if (!useRealName) {
+            mediaName = IdUtils.fastNanoId() + "." + suffix;
+        }
         final File file = new File(mediaDir, mediaName);
         try {
             fileItem.write(file);
         } catch (Exception e) {
             throw new UploaderException("写入媒体文件败");
         }
-        return config.getFileDomain() + savePath + protectPath + "/" + mediaName;
+        return config.getDomain() + savePath + protectPath + "/" + mediaName;
     }
 }

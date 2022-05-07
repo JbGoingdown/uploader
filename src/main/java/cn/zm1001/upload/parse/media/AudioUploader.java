@@ -14,8 +14,13 @@ public class AudioUploader extends AbstractMediaUploader {
     @Override
     public String saveMedia(UploaderConfig config, Map<String, String> params, Map<String, FileItem> files) {
         final FileItem fileItem = getDefaultFile(files);
-        final String fileName = StringUtils.firstNonBlank(params.get("fileName"), fileItem.getName());
+        boolean useRealName = true;
+        String fileName = params.get("fileName");
+        if (StringUtils.isEmpty(fileName)) {
+            useRealName = false;
+            fileName = fileItem.getName();
+        }
         final String savePath = getSavePath(params);
-        return write(config, fileItem, savePath, fileName);
+        return write(config, fileItem, savePath, fileName, useRealName);
     }
 }

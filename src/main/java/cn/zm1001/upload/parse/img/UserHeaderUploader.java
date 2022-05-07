@@ -22,7 +22,12 @@ public class UserHeaderUploader extends AbstractImgUploader {
         if (null == image) {
             throw new UploaderException("未能读取图片信息");
         }
-        final String fileName = StringUtils.firstNonBlank(params.get("fileName"), fileItem.getName());
+        boolean useRealName = true;
+        String fileName = params.get("fileName");
+        if (StringUtils.isEmpty(fileName)) {
+            useRealName = false;
+            fileName = fileItem.getName();
+        }
         final String savePath = getSavePath(params);
         // 支持图片截取，设置截取后起始坐标及图片宽度、高度
         int x = MapUtils.getIntValue(params, "x", 0);
@@ -36,6 +41,6 @@ public class UserHeaderUploader extends AbstractImgUploader {
         imgH = y + h > imgH ? imgH - y : h;
         image = image.getSubimage(x, y, imgW, imgH);
         image = ImageUtils.resizeImage(image, 100, 100);
-        return write(config, image, savePath, fileName);
+        return write(config, image, savePath, fileName, useRealName);
     }
 }
