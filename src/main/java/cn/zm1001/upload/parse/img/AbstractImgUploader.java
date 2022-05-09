@@ -120,7 +120,7 @@ public abstract class AbstractImgUploader extends BaseUploader {
             // 生成中图
             this.write(image, config.getPath() + savePath + "/middle" + protectPath, imgName, suffix, 300, 300);
             // 生成小图
-            this.write(image, config.getPath() + savePath + "/big" + protectPath, imgName, suffix, 100, 100);
+            this.write(image, config.getPath() + savePath + "/small" + protectPath, imgName, suffix, 100, 100);
         } catch (IOException e) {
             throw new UploaderException("写入图片失败");
         }
